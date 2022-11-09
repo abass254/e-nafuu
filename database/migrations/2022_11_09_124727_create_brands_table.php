@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('uuid')->unique();
             $table->string('title')->nullable();
             $table->string('photo');
+            $table->mediumText('description')->nullable();
             $table->enum('status', ['active', 'inactive'])->default('active');
             $table->timestamps();
         });

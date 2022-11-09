@@ -40,6 +40,6 @@ class CoreController extends Controller
 
     public function getBrands(){
         $brands = Brand::all();
-        return $brands;
+        return view('brands.index', compact('brands'));
     }
 }
