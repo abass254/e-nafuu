@@ -19,7 +19,6 @@
     <script src="{{ asset('app-assets/vendors/js/tables/datatable/datatables.buttons.min.js') }}"></script>
     <script src="{{ asset('app-assets/vendors/js/tables/datatable/datatables.bootstrap4.min.js') }}"></script>
     <script src="{{ asset('app-assets/vendors/js/tables/datatable/buttons.bootstrap.min.js') }}"></script>
-    <script src="{{ asset('app-assets/js/users-lis.js') }}"></script>
     <script src="{{ asset('app-assets/js/brands.js') }}"></script>
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="toastr.js"></script>
@@ -33,13 +32,6 @@
                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Actions
                         </button>
-                        <div class="dropdown-menu">
-                            <a class="dropdown-item"><i class="feather icon-percent"></i>Donor Details</a>
-                            <a class="dropdown-item"><i class="feather icon-percent"></i>Update Status</a>
-                            <a class="dropdown-item"><i class="feather icon-trash"></i>Delete</a>
-                            <a class="dropdown-item"><i class="feather icon-archive"></i>Archive</a>
-                            <a class="dropdown-item"><i class="feather icon-file"></i>Print Donors</a>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -76,8 +68,8 @@
                                     </div>
                                 </td>
                                 <td class="product-action">
-                                    <span class="action-edit" data-uuid="{{ $br->uuid }}"
-                                        data-idnt="{{ $br->uuid }}"><i
+                                    <span class="action-edit" onclick="updateBrand({{ $br }})"
+                                        data-uuid="{{ $br->uuid }}" data-idnt="{{ $br->uuid }}"><i
                                             class="feather icon-edit blue-text lighten"></i></span>
                                     <span class="action-delete" data-uuid="{{ $br->uuid }}"
                                         data-idnt="{{ $br->uuid }}"><i class="feather icon-trash danger"></i></span>
@@ -94,72 +86,59 @@
             <!-- add new sidebar starts -->
             <div class="add-new-data-sidebar">
                 <div class="overlay-bg"></div>
-                <div class="add-new-data">
-                    <div class="div mt-2 px-2 d-flex new-data-title justify-content-between">
-                        <div>
-                            <h4 class="text-uppercase">ADD USER</h4>
+                <form id="brand-form">
+                    <div class="add-new-data">
+                        <div class="div mt-2 px-2 d-flex new-data-title justify-content-between">
+                            <div>
+                                <h4 class="text-uppercase">ADD BRAND</h4>
+                            </div>
+                            <div class="hide-data-sidebar">
+                                <i class="feather icon-x"></i>
+                            </div>
                         </div>
-                        <div class="hide-data-sidebar">
-                            <i class="feather icon-x"></i>
-                        </div>
-                    </div>
-                    <div class="data-items pb-3">
-                        <div class="data-fields px-2 mt-25">
-                            <div class="row">
-                                <div class="col-sm-6 data-field-col">
-                                    <label for="data-name">First Name</label>
-                                    <input type="hidden" class="form-control" id="donor-idnt">
-                                    <input type="text" class="form-control" id="first_name" name="first_name">
-                                </div>
-                                <div class="col-sm-6 data-field-col">
-                                    <label for="data-name">Last Name</label>
-                                    <input type="text" class="form-control" id="last_name" name="last_name">
-                                </div>
-                                <div class="col-sm-12 data-field-col">
-                                    <label for="data-name">Email Address</label>
-                                    <input type="email" class="form-control" id="email" name="email">
-                                </div>
-                                <div class="col-sm-6 data-field-col">
-                                    <label for="data-name">User Name</label>
-                                    <input type="text" class="form-control" id="user_name" name="user_name">
-                                </div>
-                                <div class="col-sm-6 data-field-col">
-                                    <label for="data-name">Contact Information</label>
-                                    <input type="number" class="form-control" id="contact" name="contact">
-                                </div>
-                                <div class="col-sm-6 data-field-col">
-                                    <label for="data-name">Role</label>
-                                    <select class="form-control" name="role" id="role">
-                                        <option value="" selected disabled>--Role--</option>
-                                        <option value="banner">Banner</option>
-                                        <option value="promo">Promo</option>
-                                    </select>
-                                </div>
-                                <div class="col-sm-6 data-field-col">
-                                    <label for="data-name">Status</label>
-                                    <select class="form-control" name="status" id="status">
-                                        <option value="" selected disabled>--Status--</option>
-                                        <option value="banner">Banner</option>
-                                        <option value="promo">Promo</option>
-                                    </select>
-                                </div>
-                                <div class="col-sm-12 data-field-col">
-                                    <label for="data-status">Physical Address</label>
-                                    <textarea type="text" rows="4" class="form-control" name="address" id="address"></textarea>
+                        <div class="data-items pb-3">
+                            <div class="data-fields px-2 mt-25">
+                                <div class="row">
+                                    <div class="col-sm-12 data-field-col">
+                                        <input type="hidden" name="_token" id="token" value="{{ csrf_token() }}">
+                                        <input type="hidden" class="form-control" name="id" id="brand-id">
+                                        <label for="data-name">TITLE</label>
+                                        <input type="hidden" class="form-control" id="donor-idnt">
+                                        <input type="text" class="form-control" id="title" name="title">
+                                    </div>
+                                    <div class="col-sm-12 data-field-col">
+                                        <label for="data-name">BRAND PHOTO</label>
+                                        <div class="input-group">
+                                            <span class="input-group-btn text-white">
+                                                <a id="lfm" data-input="thumbnail" data-preview="holder"
+                                                    class="btn btn-primary">
+                                                    <i class="fa fa-picture-o"></i> Choose
+                                                </a>
+                                            </span>
+                                            <input id="thumbnail" class="form-control" type="text" name="photo">
+                                        </div>
+                                        <div id="holder" style="margin-top:15px;max-height:100px;"></div>
+                                    </div>
+                                    <div class="col-sm-12 data-field-col">
+                                        <label for="data-status">DESCRIPTION</label>
+                                        <textarea type="text" rows="4" class="form-control" name="description" id="description"></textarea>
+                                    </div>
+                                    <br>
+
+
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="add-data-footer d-flex justify-content-around px-3 mt-2">
-                        <div class="add-data-btn">
-                            <button class="btn btn-primary btn-save-user"><i class="feather icon-save"></i>Save
-                                Donor</button>
+                        <div class="add-data-footer d-flex justify-content-around px-3 mt-2">
+                            <div class="add-data-btn">
+                                <button class="btn btn-primary"><i class="feather icon-save"></i>Save Brand</button>
+                            </div>
+                            <div class="cancel-data-btn">
+                                <button class="btn btn-outline-danger">Cancel</button>
+                            </div>
                         </div>
-                        <div class="cancel-data-btn">
-                            <button class="btn btn-outline-danger">Cancel</button>
-                        </div>
                     </div>
-                </div>
+                </form>
             </div>
             <!-- add new sidebar ends -->
         </section>
@@ -169,4 +148,8 @@
             z-index: 8;
         }
     </style>
+    <script src="/vendor/laravel-filemanager/js/stand-alone-button.js"></script>
+    <script>
+        $('#lfm').filemanager('image');
+    </script>
 @endsection
