@@ -42,4 +42,6 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function(){
 
     //Brands
     Route::get('/brands', [App\Http\Controllers\CoreController::class, 'getBrands'])->name('brands');
+    Route::post('/brands/add', [App\Http\Controllers\CoreController::class, 'storeBrands'])->name('brands.add');
+
 });

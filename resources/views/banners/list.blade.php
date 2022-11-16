@@ -167,8 +167,7 @@
                     </div>
                     <div class="add-data-footer d-flex justify-content-around px-3 mt-2">
                         <div class="add-data-btn">
-                            <button class="btn btn-success btn-save-banner"><i class="feather icon-save"></i>Save
-                                Banner</button>
+                            <button id="btn-save" class="btn btn-success btn-save-banner">Save Banner</button>
                         </div>
                         <div class="cancel-data-btn">
                             <button class="btn btn-danger">Cancel</button>
