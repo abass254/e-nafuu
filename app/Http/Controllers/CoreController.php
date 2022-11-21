@@ -46,7 +46,7 @@ class CoreController extends Controller
     }
     public function storeBrands(Request $req){
         if($req->id){
-            return $req->all();
+           // return $req->all();
             DB::table('brands')->where('id', $req->id)->update([
                 'title' => $req->title,
                 'description' => $req->description,
@@ -60,7 +60,7 @@ class CoreController extends Controller
         }
 
         else{
-            return $req->all();
+           // return $req->all();
             $br = new Brand();
             $br->uuid = Str::random(30);
             $br->title = $req->title;

@@ -70,6 +70,7 @@ $('document').ready(function () {
             var photo = $('#thumbnail').val();
             var description = $('#description').val();
             var token = $('#token').val();
+            var id = $('#brand-id').val();
             $.ajax({
                 url: "/admin/brands/add",
                 type: "POST",
@@ -78,6 +79,7 @@ $('document').ready(function () {
                     _token: token,
                     description: description,
                     photo: photo,
+                    id: id,
                 },
                 success: function (result) {
                     toastr.success('Success', result.message);
@@ -106,8 +108,8 @@ function updateBrand(brand) {
     $("#thumbnail").val(brand.photo);
     $('#brand-id').val(brand.id);
 
-    const btn = document.getElementById("btn-save");
-    btn.innerText = "Update";
+    // const btn = document.getElementById("btn-save");
+    // btn.innerText = "Update";
 
 
     $(".add-new-data").addClass("show");
